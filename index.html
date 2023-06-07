@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VIP视频解析</title>
+</head>
+<body>
+    <h1>VIP视频解析</h1>
+    <form>
+        <label for="url">视频链接：</label>
+        <input type="text" id="url">
+        <button type="button" onclick="getVideoUrl()">解析</button>
+    </form>
+    <video id="video" controls></video>
+
+    <script>
+        function getVideoUrl() {
+            var url = document.getElementById('url').value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var videoUrl = JSON.parse(xhr.responseText).url;
+                    document.getElementById('video').src = videoUrl;
+                }
+            };
+            xhr.open('GET', 'https://jx.jackass.cn/api/get_video_url.php?url=' + url, true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
